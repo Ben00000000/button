@@ -34,7 +34,9 @@ let blueBouncyEnemy1, blueBouncyEnemy2, blueBouncyEnemy3, blueBouncyEnemy4, blue
 let redBouncyEnemy1, redBouncyEnemy2, redBouncyEnemy3, redBouncyEnemy4, redBouncyEnemy5;
 var playerHealth = 100; // Set an initial value for player health
 var gameOver = false;
-var jumpButtonPressed = false;
+let jumpButtonPressed = false;
+let leftButtonPressed = false;
+let rightButtonPressed = false;
 
 
 
@@ -534,29 +536,43 @@ this.physics.add.overlap(player, [redbouncyenemy1, redbouncyenemy2, redbouncyene
      jumpButton.on('pointerup', onJumpButtonUp);
 
 
-        function onLeftButtonDown() {
-            cursors.left.isDown = true;
-        }
+       function onLeftButtonDown() {
+           leftButtonPressed = true;
+           cursors.left.isDown = true;
+       }
 
-        function onLeftButtonUp() {
-            cursors.left.isDown = false;
-        }
+       function onLeftButtonUp() {
+           leftButtonPressed = false;
+           if (!rightButtonPressed) {
+               cursors.left.isDown = false;
+           }
+       }
 
-        function onRightButtonDown() {
-            cursors.right.isDown = true;
-        }
+       function onRightButtonDown() {
+           rightButtonPressed = true;
+           cursors.right.isDown = true;
+       }
 
-        function onRightButtonUp() {
-            cursors.right.isDown = false;
-        }
+       function onRightButtonUp() {
+           rightButtonPressed = false;
+           if (!leftButtonPressed) {
+               cursors.right.isDown = false;
+           }
+       }
 
-      function onJumpButtonDown() {
-          jumpButtonPressed = true;
-      }
+       function onJumpButtonDown() {
+           jumpButtonPressed = true;
+       }
 
-      function onJumpButtonUp() {
-          jumpButtonPressed = false;
-      }
+       function onJumpButtonUp() {
+           jumpButtonPressed = false;
+           if (!leftButtonPressed) {
+               cursors.left.isDown = false;
+           }
+           if (!rightButtonPressed) {
+               cursors.right.isDown = false;
+           }
+       }
 
 
 
