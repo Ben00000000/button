@@ -547,19 +547,11 @@ this.physics.add.overlap(player, [redbouncyenemy1, redbouncyenemy2, redbouncyene
             cursors.right.isDown = false;
         }
 
-   let isJumping = false;
-
-   function onJumpButtonDown() {
-       if (player.body.onFloor() && !isJumping) {
-           player.setVelocityY(-800);
-           isJumping = true;
-       }
-   }
-
-   function onJumpButtonUp() {
-       isJumping = false;
-   }
-
+        function onJumpButtonDown() {
+            if (player.body.onFloor()) {
+                player.setVelocityY(-800);
+            }
+        }
 
 
 function laserCollision(player, laser) {
