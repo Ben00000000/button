@@ -34,6 +34,7 @@ let blueBouncyEnemy1, blueBouncyEnemy2, blueBouncyEnemy3, blueBouncyEnemy4, blue
 let redBouncyEnemy1, redBouncyEnemy2, redBouncyEnemy3, redBouncyEnemy4, redBouncyEnemy5;
 var playerHealth = 100; // Set an initial value for player health
 var gameOver = false;
+var jumpButtonPressed = false;
 
 
 
@@ -530,6 +531,8 @@ this.physics.add.overlap(player, [redbouncyenemy1, redbouncyenemy2, redbouncyene
      rightButton.on('pointerup', onRightButtonUp);
 
      jumpButton.on('pointerdown', onJumpButtonDown);
+     jumpButton.on('pointerup', onJumpButtonUp);
+
 
         function onLeftButtonDown() {
             cursors.left.isDown = true;
@@ -547,11 +550,14 @@ this.physics.add.overlap(player, [redbouncyenemy1, redbouncyenemy2, redbouncyene
             cursors.right.isDown = false;
         }
 
-        function onJumpButtonDown() {
-            if (player.body.onFloor()) {
-                player.setVelocityY(-800);
-            }
-        }
+      function onJumpButtonDown() {
+          jumpButtonPressed = true;
+      }
+
+      function onJumpButtonUp() {
+          jumpButtonPressed = false;
+      }
+
 
 
 function laserCollision(player, laser) {
@@ -794,12 +800,10 @@ jumpButton.y = this.cameras.main.worldView.bottom - 100;
     }
 
     // Check for the jump key
-    if (cursors.up.isDown && player.body.onFloor()) {
-        // Player is on the ground and the jump key is pressed
-        player.setVelocityY(-800);
-        player.anims.play('jump', true);
-
-    } else if (!player.body.onFloor()) {
+if ((cursors.up.isDown || jumpButtonPressed) && player.body.onFloor()) {
+    player.setVelocityY(-800);
+    player.anims.play('jump', true);
+} else if (!player.body.onFloor()) {
         // Player is in the air, play the jump animation continuously
         player.anims.play('jump', true);
 
