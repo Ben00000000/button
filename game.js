@@ -492,7 +492,7 @@ this.physics.add.overlap(player, [redbouncyenemy1, redbouncyenemy2, redbouncyene
 
 
     // Follow the player with the camera
-    this.cameras.main.startFollow(player, true, 0.01, 0.01);
+    this.cameras.main.startFollow(player, true, 0.1, 0.1);
 
     // Create cursor keys
     cursors = this.input.keyboard.createCursorKeys();
@@ -522,31 +522,37 @@ this.physics.add.overlap(player, [redbouncyenemy1, redbouncyenemy2, redbouncyene
       jumpButton.setAlpha(0.5);
 
 
-      // Add event listeners for touch events
-        leftButton.on('pointerdown', function (pointer) {
+     // Add event listeners for touch events
+     leftButton.on('pointerdown', onLeftButtonDown);
+     leftButton.on('pointerup', onLeftButtonUp);
+
+     rightButton.on('pointerdown', onRightButtonDown);
+     rightButton.on('pointerup', onRightButtonUp);
+
+     jumpButton.on('pointerdown', onJumpButtonDown);
+
+        function onLeftButtonDown() {
             cursors.left.isDown = true;
-        });
+        }
 
-       leftButton.on('pointerup', function (pointer) {
-           cursors.left.isDown = false;
-           jumpButton.isDown = false; // Reset jump button state
-       });
+        function onLeftButtonUp() {
+            cursors.left.isDown = false;
+        }
 
-       rightButton.on('pointerup', function (pointer) {
-           cursors.right.isDown = false;
-           jumpButton.isDown = false; // Reset jump button state
-       });
+        function onRightButtonDown() {
+            cursors.right.isDown = true;
+        }
 
-
-        rightButton.on('pointerup', function (pointer) {
+        function onRightButtonUp() {
             cursors.right.isDown = false;
-        });
+        }
 
-        jumpButton.on('pointerdown', function (pointer) {
+        function onJumpButtonDown() {
             if (player.body.onFloor()) {
                 player.setVelocityY(-800);
             }
-        });
+        }
+
 
 function laserCollision(player, laser) {
     if (laser.isPlayerLaser) {
